@@ -10,9 +10,25 @@ import Dashboard from "./pages/admin/Dashboard";
 import AuthGuard from "./guard/AuthGuard";
 import Home from "./pages/main/Home";
 import UnAuthorized from "./pages/auth/UnAuthorized";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { checkAuth } from "./store/auth/slices/authSlice";
+import Courses from "./pages/admin/Courses";
+import CreateNewCourse from "./pages/admin/CreateNewCourse";
 function App() {
-  const { isAuthenticated, user } = useSelector((state) => state.auth);
+  const { isAuthenticated, user, isLoading } = useSelector(
+    (state) => state.auth
+  );
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(checkAuth());
+  }, [dispatch]);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <BrowserRouter>
       <Routes>
@@ -54,6 +70,8 @@ function App() {
           }
         >
           <Route path="dashboard" element={<Dashboard />} />
+          <Route path="courses" element={<Courses />} />
+          <Route path="create-new-course" element={<CreateNewCourse />} />
         </Route>
 
         {/* unauthorized page */}

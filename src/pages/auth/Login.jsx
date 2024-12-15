@@ -106,7 +106,7 @@ const Login = () => {
               {isLoading ? (
                 <LoaderCircle className="animate-spin text-center mx-auto" />
               ) : (
-                "Sign Up"
+                "Sign In"
               )}
             </motion.button>
           </div>
